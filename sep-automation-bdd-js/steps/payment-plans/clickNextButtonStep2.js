@@ -6,15 +6,6 @@ import {
 import { faker } from "@faker-js/faker";
 import { expect } from "@playwright/test";
 
-Given("user completed the start application step", async function () {
-  await startApplicationPage.enterFirstName(faker.person.firstName());
-  await startApplicationPage.enterLastName(faker.person.lastName());
-  await startApplicationPage.enterEmail(faker.internet.email());
-  await startApplicationPage.enterPhoneNumber(faker.phone.number());
-  await startApplicationPage.selectHowDidYouHearAboutUs("Email");
-  await startApplicationPage.nextButton.click();
-});
-
 Then(
   "the next button on payment plan page should be disabled by default",
   async function () {
@@ -31,8 +22,6 @@ Then("the Next button should become active", async function () {
   await expect(paymentPlanPage.activeNextButton).toBeVisible();
   await expect(paymentPlanPage.activeNextButton).toBeEnabled();
 });
-
-
 
 Then("the steps2 stepper should be blue", async function () {
   await expect(startApplicationPage.paymentPlanStepCircle).toHaveCSS(
@@ -61,6 +50,45 @@ Then("the steps2 stepper should be green", async function () {
 
 Then("the step3 stepper should be blue", async function () {
   await expect(startApplicationPage.reviewStepCircle).toHaveCSS(
+    "background-color",
+    "rgb(1, 201, 255)",
+  );
+});
+
+Then("the upfront payment plan summary should be displayed", async function () {
+  await expect(paymentPlanPage.basePriceAmountUnderUpfront).toBeVisible();
+  await expect(paymentPlanPage.upfrontDiscountAmountUnderUpfront).toBeVisible();
+  await expect(paymentPlanPage.subtotalAmountUnderUpfront).toBeVisible();
+});
+
+When("the user selects Installments payment plan", async function () {
+  await paymentPlanPage.selectPaymentPlan("installments");
+});
+
+Then("the installement plan summary should be displayed", async function () {
+  await expect(paymentPlanPage.basePriceAmountUnderInstallments).toBeVisible();
+  await expect(
+    paymentPlanPage.installmentsNumberUnderInstallments,
+  ).toBeVisible();
+  await expect(
+    paymentPlanPage.pricePerInstallmentsAmountUnderInstallments,
+  ).toBeVisible();
+  await expect(
+    paymentPlanPage.firstMonthPaymentAmountUnderInstallments,
+  ).toBeVisible();
+});
+
+Then("the back button is disabled", async function () {
+  await expect(paymentPlanPage.backButton).toBeVisible();
+  await expect(paymentPlanPage.backButton).toBeEnabled();
+});
+
+When("the user clicks the back button", async function () {
+  await paymentPlanPage.backButton.click();
+});
+
+Then("the steps1 stepper should be blue", async function () {
+  await expect(startApplicationPage.startApplicationStepCircle).toHaveCSS(
     "background-color",
     "rgb(1, 201, 255)",
   );

@@ -36,3 +36,17 @@ Feature: Click on the next button on payment plans page   #! Test Only
         And the step3 stepper should be blue
 
 
+    @sep16-3
+    Scenario: verify that payment plan summary is displayed when a payment plan is selected
+        When the user selects a payment plan
+        Then the upfront payment plan summary should be displayed
+        When the user selects Installments payment plan
+        Then the installement plan summary should be displayed
+
+    @sep16-4
+    Scenario: verify that the back button is displayed and enabled
+        Then the back button is disabled
+        When the user clicks the back button
+        Then the steps1 stepper should be blue
+
+
