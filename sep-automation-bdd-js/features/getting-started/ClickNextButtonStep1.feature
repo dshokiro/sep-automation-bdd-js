@@ -11,4 +11,4 @@ Feature: Click on the next button on step 1
     #TODO: Create scenarios that cover all the acceptance criteria
 
     Background:
-        Given user is on the enrollment page
+        Given user is on the enrollment page ddkj
